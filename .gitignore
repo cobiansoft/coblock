@@ -1,0 +1,15 @@
+.vs/
+*.suo
+*.user
+*.sln.docstates
+*.identcache
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+Thumbs.db
+ehthumbs.db
+/_BIN/*
+*/__history/
+/Win64/
+/Win32/
