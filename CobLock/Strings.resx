@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutAllRights" xml:space="preserve">
+    <value>All rights reserved</value>
+  </data>
+  <data name="AboutCopyright" xml:space="preserve">
+    <value>©{0} {1}</value>
+  </data>
+  <data name="AboutProgram" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="AboutVersion" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="CommentDelete" xml:space="preserve">
+    <value>Automatically delete the encrypted source files (!). (true/false)</value>
+  </data>
+  <data name="CommentEncryptionMethod" xml:space="preserve">
+    <value>The encryption method to use. Possible values: aes128, aes192, aes256, rsa</value>
+  </data>
+  <data name="CommentHeader" xml:space="preserve">
+    <value>Default settings for {0}</value>
+  </data>
+  <data name="CommentHidden" xml:space="preserve">
+    <value>Process hidden files? (true/false)</value>
+  </data>
+  <data name="CommentKeyDecryption" xml:space="preserve">
+    <value>Key to use for decryption.</value>
+  </data>
+  <data name="CommentKeyEncryption" xml:space="preserve">
+    <value>Key to use for encryption.</value>
+  </data>
+  <data name="CommentKeySize" xml:space="preserve">
+    <value>The default key size in bytes when creating a key.</value>
+  </data>
+  <data name="CommentKeySize2" xml:space="preserve">
+    <value>Possible values:  1024, 2048, 3072, 4096, 8192</value>
+  </data>
+  <data name="CommentLaconic" xml:space="preserve">
+    <value>Laconic mode? (true/false)</value>
+  </data>
+  <data name="CommentPassword" xml:space="preserve">
+    <value>Password to use when encrypting or decrypting (or for private keys).</value>
+  </data>
+  <data name="CommentPassword1" xml:space="preserve">
+    <value>Store it only in encrypted form using "coblock ep".</value>
+  </data>
+  <data name="CommentPassword2" xml:space="preserve">
+    <value>It's NOT safe to store your password here. Leave this field empty for best security. </value>
+  </data>
+  <data name="CommentRecursive" xml:space="preserve">
+    <value>Process subdirectories when the source is a directory. (true/false)</value>
+  </data>
+  <data name="CommentYes" xml:space="preserve">
+    <value>Answer Yes to any questions , for example, when overwriting files (!). (true/false)</value>
+  </data>
+  <data name="ErrAccessDenied" xml:space="preserve">
+    <value>Access denied while writing the settings file '{0}'. Elevation needed?</value>
+  </data>
+  <data name="ErrAccessDeniedCD" xml:space="preserve">
+    <value>Cannot create the directory '{0}'. Access denied. Elevation needed?</value>
+  </data>
+  <data name="ErrBadEncryptionHeader" xml:space="preserve">
+    <value>Bad encryption header.</value>
+  </data>
+  <data name="ErrBadFileName" xml:space="preserve">
+    <value>Incorrect file name.</value>
+  </data>
+  <data name="ErrBadInput" xml:space="preserve">
+    <value>Bad input.</value>
+  </data>
+  <data name="ErrBadKeyOrCorruptedFile" xml:space="preserve">
+    <value>Bad key or corrupted file.</value>
+  </data>
+  <data name="ErrBadKeySize" xml:space="preserve">
+    <value>Unsupported key size.</value>
+  </data>
+  <data name="ErrBadPasswordOrCorruptedFile" xml:space="preserve">
+    <value>Bad password or corrupted file.</value>
+  </data>
+  <data name="ErrBadPasswordOrCorruptedString" xml:space="preserve">
+    <value>Bad password or corrupted string.</value>
+  </data>
+  <data name="ErrConfigErrorD" xml:space="preserve">
+    <value>An error occurred while creating the directory '{0}': {1}.</value>
+  </data>
+  <data name="ErrConfigWrite" xml:space="preserve">
+    <value>An error occurred while writing the configuration file '{0}': {1}.</value>
+  </data>
+  <data name="ErrCorruptedFile" xml:space="preserve">
+    <value>Corrupted file or unknown encryption method.</value>
+  </data>
+  <data name="ErrCreatingKeyPair" xml:space="preserve">
+    <value>An error occurred while creating and saving the pair of keys: {0}.</value>
+  </data>
+  <data name="ErrCryptoError" xml:space="preserve">
+    <value>Cryptographic error: {0}</value>
+  </data>
+  <data name="ErrEmptyInputPassword" xml:space="preserve">
+    <value>The password to encrypt cannot be null.</value>
+  </data>
+  <data name="ErrEmptyPassword" xml:space="preserve">
+    <value>The password cannot be empty.</value>
+  </data>
+  <data name="ErrEmptyPasswordEnc" xml:space="preserve">
+    <value>The password to use for encryption cannot be empty.</value>
+  </data>
+  <data name="ErrIOError" xml:space="preserve">
+    <value>Input/output error: {0}</value>
+  </data>
+  <data name="ErrNoConfigDir" xml:space="preserve">
+    <value>Couldn't obtain the settings directory.</value>
+  </data>
+  <data name="ErrNoDestination" xml:space="preserve">
+    <value>A destination directory must be specified.</value>
+  </data>
+  <data name="ErrNoParser" xml:space="preserve">
+    <value>An error occurred while parsing the command line arguments.</value>
+  </data>
+  <data name="ErrNoSource" xml:space="preserve">
+    <value>The source file(s) to encrypt must be specified.</value>
+  </data>
+  <data name="ErrNoSourceD" xml:space="preserve">
+    <value>The source file(s) to decrypt must be specified.</value>
+  </data>
+  <data name="ErrNotSupported" xml:space="preserve">
+    <value>Operation not supported: {0}</value>
+  </data>
+  <data name="ErrNoVerb" xml:space="preserve">
+    <value>Incorrect parameter. Run "coblock help" to get a list of the commands and flags to use.</value>
+  </data>
+  <data name="ErrorBadKey" xml:space="preserve">
+    <value>Couldn't obtain the key from the given file.</value>
+  </data>
+  <data name="ErrorHeader" xml:space="preserve">
+    <value>ERROR: {0}</value>
+  </data>
+  <data name="ErrParserNotFound" xml:space="preserve">
+    <value>The parser was not found.</value>
+  </data>
+  <data name="ErrPasswordsDontMatch" xml:space="preserve">
+    <value>The passwords don't match.</value>
+  </data>
+  <data name="ErrSecurityException" xml:space="preserve">
+    <value>Security exception: {0}</value>
+  </data>
+  <data name="ErrUnexpectedError" xml:space="preserve">
+    <value>Unexpected error: {0}</value>
+  </data>
+  <data name="ErrUnknownDecryptionMethod" xml:space="preserve">
+    <value>The file '{0}' may have been encrypted with an unknown method.</value>
+  </data>
+  <data name="ErrUnknownEncryptionMethod" xml:space="preserve">
+    <value>The file may be encrypted with an unknown method.</value>
+  </data>
+  <data name="ErrUnknownError" xml:space="preserve">
+    <value>Unknown error.</value>
+  </data>
+  <data name="ErrUnknownSource" xml:space="preserve">
+    <value>Unknown source '{0}'</value>
+  </data>
+  <data name="ErrUnknownVerb" xml:space="preserve">
+    <value>Unknown command. Run "coblock help" to get a list of the commands and flags to use.</value>
+  </data>
+  <data name="ErrWrongKeyType" xml:space="preserve">
+    <value>Wrong key type. Use the public key for encryption and the private key for decryption.</value>
+  </data>
+  <data name="HelpDestination" xml:space="preserve">
+    <value>DESTINATION</value>
+  </data>
+  <data name="HelpDestination1" xml:space="preserve">
+    <value>Destination directory where the processed input file(s) will be stored.</value>
+  </data>
+  <data name="HelpFlagDelete" xml:space="preserve">
+    <value>-d 
+	Delete the source files after successful encryption.</value>
+  </data>
+  <data name="HelpFlagEncryptionMethod" xml:space="preserve">
+    <value>-m: 
+	Indicates the encryption method to use. The possible values are: 
+	aes128: Use the 128bit symmetric AES method.
+	aes192: Use the 192bit symmetric AES method
+	aes256: Use the 256bit symmetric AES method
+	rsa: use the asymmetric RSA method. The -k flag must be used to indicate the key.</value>
+  </data>
+  <data name="HelpFlagHidden" xml:space="preserve">
+    <value>-h 
+	Process even hidden files.</value>
+  </data>
+  <data name="HelpFlagKey" xml:space="preserve">
+    <value>-k: 
+	Use the given key for encryption or decryption. 
+	Encrypt with the public key and decrypt with the private key.  
+	The file name of the key must be written as -k:[path/]file_name. 
+	If the path or the file name contain spaces, use double quotes. 
+	Example: -k:"/home/user/.ssh/my key name.pub". 
+	If the private key is encrypted by a password, the flag -p can also be used with this option.</value>
+  </data>
+  <data name="HelpFlagKeySize" xml:space="preserve">
+    <value>-s:  
+	When creating a key, this flag will indicate the size of it. Possible values:
+	1024, 2048, 3072, 4096, 8192</value>
+  </data>
+  <data name="HelpFlagLaconic" xml:space="preserve">
+    <value>-l:
+	Laconic mode. Shows file operations only if there are errors. </value>
+  </data>
+  <data name="HelpFlagPassword" xml:space="preserve">
+    <value>-p: 
+	When using symmetric methods, the password can be written here.
+	When using asymmetric methods, and the private key is protected, the password can be indicated here. 
+	If no password is assigned but its needed, the program will prompt it for you.
+	If the password contains the space character or a double quote ("), surround it by quotes. 
+	The double quotes must then be doubled.
+	Example: -p"this is a password that contains a "" double quote"</value>
+  </data>
+  <data name="HelpFlagRecursive" xml:space="preserve">
+    <value>-r  
+	If the source is a directory, then process all subdirectories as well.</value>
+  </data>
+  <data name="HelpFlags" xml:space="preserve">
+    <value>FLAGS</value>
+  </data>
+  <data name="HelpFlags1" xml:space="preserve">
+    <value>If provided, these options will take priority over any other configuration file. Simple flags can stack. For example -h -r can be written as -hr.</value>
+  </data>
+  <data name="HelpFlagYes" xml:space="preserve">
+    <value>-y 
+	Answer Yes to all questions, for example, when overwriting files.</value>
+  </data>
+  <data name="HelpIntro" xml:space="preserve">
+    <value>{0} ({1}) Help file</value>
+  </data>
+  <data name="HelpSource" xml:space="preserve">
+    <value>SOURCE</value>
+  </data>
+  <data name="HelpSource1" xml:space="preserve">
+    <value>Source files to encrypt or decrypt. 
+	A file or a directory can be indicated as the source. 
+	Masks are allowed in the file part of the path. Surround the source by quotes if the source contains space characters.
+	When creating a key pair, the file name to store the public key can be indicated here.</value>
+  </data>
+  <data name="HelpUsage" xml:space="preserve">
+    <value>Usage: coblock VERB [FLAGS] [SOURCE] [DESTINATION]</value>
+  </data>
+  <data name="HelpVerb" xml:space="preserve">
+    <value>VERB</value>
+  </data>
+  <data name="HelpVerb1" xml:space="preserve">
+    <value>The command to use. This is an obligatory part of the syntax. The verb can be written fully or using the short form.</value>
+  </data>
+  <data name="HelpVerbAbout" xml:space="preserve">
+    <value>about, a :
+	Shows the version of the program and the "about" information (same as version).</value>
+  </data>
+  <data name="HelpVerbConfig" xml:space="preserve">
+    <value>config, c: 
+	Creates a default configuration file for the current user. 
+	This file can dictate the default flags or options to use if nothing else is given. 
+	The command line arguments override those options.</value>
+  </data>
+  <data name="HelpVerbCreateKeys" xml:space="preserve">
+    <value>create-keys, ck: 
+	Creates a key pair to use with the RSA encryption method.</value>
+  </data>
+  <data name="HelpVerbDecrypt" xml:space="preserve">
+    <value>decrypt, d: 
+	Decrypts the source into the destination directory.</value>
+  </data>
+  <data name="HelpVerbEncrypt" xml:space="preserve">
+    <value>encrypt, e: 
+	Encrypts the source into the destination directory.</value>
+  </data>
+  <data name="HelpVerbEncryptPassword" xml:space="preserve">
+    <value>encrypt-password, ep: 
+	Encrypts a password in order to store it in the settings file.</value>
+  </data>
+  <data name="HelpVerbHelp" xml:space="preserve">
+    <value>help, h : 
+	Shows this help file.</value>
+  </data>
+  <data name="HelpVerbVersion" xml:space="preserve">
+    <value>version, v : 
+	Shows the version of the program and the "about" information (same as about).</value>
+  </data>
+  <data name="MsgAborted" xml:space="preserve">
+    <value>Operation aborted by the user.</value>
+  </data>
+  <data name="MsgConfigFileCreated" xml:space="preserve">
+    <value>The configuration file has been successfully created.</value>
+  </data>
+  <data name="MsgCreateKey" xml:space="preserve">
+    <value>Creating a pair of keys to use with the RSA method. </value>
+  </data>
+  <data name="MsgCreateKeyFileName" xml:space="preserve">
+    <value>Enter the file name (with or without path). File extensions will be added automatically: </value>
+  </data>
+  <data name="MsgCreatingDirectory" xml:space="preserve">
+    <value>Creating the directory '{0}'.</value>
+  </data>
+  <data name="MsgDecryptingFile" xml:space="preserve">
+    <value>Decrypting '{0}'...</value>
+  </data>
+  <data name="MsgDecryptKeyPassword" xml:space="preserve">
+    <value>Enter the password for the private key. If the key is unprotected, just press enter:</value>
+  </data>
+  <data name="MsgDefaultMethod" xml:space="preserve">
+    <value>Using the default encrypting method (aes256).</value>
+  </data>
+  <data name="MsgDeletionError" xml:space="preserve">
+    <value>Couldn't delete the file '{0}'.</value>
+  </data>
+  <data name="MsgEncryptingFile" xml:space="preserve">
+    <value>Encrypting '{0}'.</value>
+  </data>
+  <data name="MsgEncryptPasswordEnter" xml:space="preserve">
+    <value>Enter the password you want to encrypt. The password will not be shown on the screen:</value>
+  </data>
+  <data name="MsgEncryptPasswordEnterRe" xml:space="preserve">
+    <value>Confirm the password:</value>
+  </data>
+  <data name="MsgEnterDestination" xml:space="preserve">
+    <value>Enter the directory name where the processed file(s) will be stored:</value>
+  </data>
+  <data name="MsgEnterKeyPassword" xml:space="preserve">
+    <value>Enter a password to protect the private key. Press ENTER to leave the private key unprotected.</value>
+  </data>
+  <data name="MsgEnterKeyPasswordRe" xml:space="preserve">
+    <value>Confirm the password used to protect your private key:</value>
+  </data>
+  <data name="MsgEnterPasswordDecryption" xml:space="preserve">
+    <value>Enter the password for decryption:</value>
+  </data>
+  <data name="MsgEnterPasswordForEncryption" xml:space="preserve">
+    <value>Enter the password to use for encryption. Please, use a long and complex password:</value>
+  </data>
+  <data name="MsgEnterPrivateKey" xml:space="preserve">
+    <value>Enter the path and file name of the private key to use for decryption:</value>
+  </data>
+  <data name="MsgEnterPublicKey" xml:space="preserve">
+    <value>Enter the path and file name of the public key to use for encryption:</value>
+  </data>
+  <data name="MsgEnterSource" xml:space="preserve">
+    <value>Enter the source file, directory or mask to encrypt: </value>
+  </data>
+  <data name="MsgEnterSourceD" xml:space="preserve">
+    <value>Enter the file, directory or mask to decrypt:</value>
+  </data>
+  <data name="MsgFileDeleted" xml:space="preserve">
+    <value>The source file '{0}' has been successfully deleted.</value>
+  </data>
+  <data name="MsgInvalidAnswer" xml:space="preserve">
+    <value>Invalid answer.</value>
+  </data>
+  <data name="MsgKeyExistsWarning" xml:space="preserve">
+    <value>One or both keys already exist. Do you want to overwrite them? (y/n)</value>
+  </data>
+  <data name="MsgKeysCreatedSuccessfully" xml:space="preserve">
+    <value>The key pair was successfully created.</value>
+  </data>
+  <data name="MsgKeysWarning" xml:space="preserve">
+    <value>Do NOT leave your private key in the same place where your private key is located. Move it to some save place and keep it safe and private!</value>
+  </data>
+  <data name="MsgMassDecryption" xml:space="preserve">
+    <value>Decrypted files: {0}, created directories: {1}, errors: {2}.</value>
+  </data>
+  <data name="MsgMassEncryption" xml:space="preserve">
+    <value>Encrypted files: {0}, created directories: {1}, errors: {2}.</value>
+  </data>
+  <data name="MsgReEnterPasswordForEncryption" xml:space="preserve">
+    <value>Re-enter the password to use for encryption:</value>
+  </data>
+  <data name="MsgReplaceConfig" xml:space="preserve">
+    <value>The file '{0}' already exists. Do you want to replace that file with the default settings? (y/n)</value>
+  </data>
+  <data name="MsgReplaceFile" xml:space="preserve">
+    <value>The file '{0}' exists already. Do you want to replace it?   (y/n/a/c)</value>
+  </data>
+  <data name="MsgSingleFileDecrypted" xml:space="preserve">
+    <value>The file '{0}' has been successfully decrypted.</value>
+  </data>
+  <data name="MsgSingleFileEncrypted" xml:space="preserve">
+    <value>The file '{0}' has been successfully encrypted.</value>
+  </data>
+  <data name="MsgUsingDefaultKeySize" xml:space="preserve">
+    <value>Using the default key size of 2048 bits.</value>
+  </data>
+  <data name="StrSpecialMessage" xml:space="preserve">
+    <value>.:.  {0} </value>
+  </data>
+</root>
