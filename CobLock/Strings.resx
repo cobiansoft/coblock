@@ -354,7 +354,7 @@
   <data name="HelpSource1" xml:space="preserve">
     <value>Source files to encrypt or decrypt. 
 	A file or a directory can be indicated as the source. 
-	Masks are allowed in the file part of the path. Surround the source by quotes if the source contains space characters.
+	Masks are allowed in the file part of the path. Surround the source by quotes if the source contains space characters (or a mask in Linux).
 	When creating a key pair, the file name to store the public key can be indicated here.</value>
   </data>
   <data name="HelpUsage" xml:space="preserve">
@@ -414,6 +414,9 @@
   </data>
   <data name="MsgCreatingDirectory" xml:space="preserve">
     <value>Creating the directory '{0}'.</value>
+  </data>
+  <data name="MsgDebug" xml:space="preserve">
+    <value>Debug mode. Press enter to continue.</value>
   </data>
   <data name="MsgDecryptingFile" xml:space="preserve">
     <value>Decrypting '{0}'...</value>

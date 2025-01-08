@@ -34,12 +34,12 @@ namespace Cobian.Locker
         public const string AppName = "coblock";
         public const string AppNameLong = "Cobian Locker";
 
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.10";
 
         public const string Author = "CobianSoft";
         public const string AuthorLong = "Luis Cobian, CobianSoft";
 
-        public const string Years = "2024-2025";
+        public const string Years = "2024";
 
         public const string Web = "htps://www.cobiansoft.com";
         public const string Mail = "cobian@cobiansoft.com";

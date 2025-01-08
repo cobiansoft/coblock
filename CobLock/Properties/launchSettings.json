@@ -2,7 +2,7 @@
   "profiles": {
     "CobLock": {
       "commandName": "Project",
-      "commandLineArgs": "d -r -k:\"e:\\Projects\\CobLocker\\_BIN\\Release\\net8.0\\publish\\aot\\win-x64\\polo.prv\""
+      "commandLineArgs": "d c:\\users\\colu0001\\desktop\\DEC\\*.enc c:\\users\\colu0001\\desktop\\DEC"
     }
   }
 }

@@ -96,6 +96,10 @@ namespace Cobian.Locker
         /// </summary>
         public string? KeyForEncryption { get; private set; }
 
+#if DEBUG
+        public bool Debug { get; private set;}
+#endif
+
         /// <summary>
         /// Used only when reading from settings
         /// </summary>
@@ -424,6 +428,13 @@ namespace Cobian.Locker
 
             switch (pureFlag)
             {
+#if DEBUG
+                case var b when b.Equals(Constants.FlagDebug, StringComparison.Ordinal):
+                    {
+                        Debug = true;
+                        break;
+                    }
+#endif
                 case var b when b.Equals(Constants.FlagRecursive, StringComparison.Ordinal):
                     {
                         Recursive = true;

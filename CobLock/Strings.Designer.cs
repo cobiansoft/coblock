@@ -717,7 +717,7 @@ namespace Cobian.Locker {
         /// <summary>
         ///   Looks up a localized string similar to Source files to encrypt or decrypt. 
         ///	A file or a directory can be indicated as the source. 
-        ///	Masks are allowed in the file part of the path. Surround the source by quotes if the source contains space characters.
+        ///	Masks are allowed in the file part of the path. Surround the source by quotes if the source contains space characters (or a mask in Linux).
         ///	When creating a key pair, the file name to store the public key can be indicated here..
         /// </summary>
         internal static string HelpSource1 {
@@ -877,6 +877,15 @@ namespace Cobian.Locker {
         internal static string MsgCreatingDirectory {
             get {
                 return ResourceManager.GetString("MsgCreatingDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debug mode. Press enter to continue..
+        /// </summary>
+        internal static string MsgDebug {
+            get {
+                return ResourceManager.GetString("MsgDebug", resourceCulture);
             }
         }
         

@@ -24,6 +24,7 @@
 
 using Cobian.Locker.Cryptography;
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
@@ -45,6 +46,15 @@ namespace Cobian.Locker
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             parser = new ArgumentParser(args);
+
+#if DEBUG
+            if (parser.Debug)
+            {
+                Console.WriteLine(Strings.MsgDebug);
+                _= Console.ReadLine();
+            }
+#endif
+
             return AnalyzeArguments(args);
         }
 

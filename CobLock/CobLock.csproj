@@ -15,7 +15,7 @@
     <AssemblyOriginatorKeyFile>../Keys/CobLock.snk</AssemblyOriginatorKeyFile>
     <PackageId>Cobian.Locker</PackageId>
     <Title>Cobian Locker (coblock)</Title>
-    <Version>1.0.0</Version>
+    <Version>1.0.10</Version>
     <Authors>Luis Cobian, CobianSoft</Authors>
     <Company>Luis Cobian, CobianSoft</Company>
     <Product>Cobian Locker (coblock)</Product>
