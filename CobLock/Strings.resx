@@ -294,11 +294,15 @@
   </data>
   <data name="HelpFlagEncryptionMethod" xml:space="preserve">
     <value>-m: 
-	Indicates the encryption method to use. The possible values are: 
+	Indicates the encryption method to use. The possible values are:
+	
 	aes128: Use the 128bit symmetric AES method.
 	aes192: Use the 192bit symmetric AES method
 	aes256: Use the 256bit symmetric AES method
-	rsa: use the asymmetric RSA method. The -k flag must be used to indicate the key.</value>
+	rsa: use the asymmetric RSA method. The -k: flag must then be used to indicate the key. 
+	
+	Example: -m:aes192  (always use : as a separator!)
+</value>
   </data>
   <data name="HelpFlagHidden" xml:space="preserve">
     <value>-h 
@@ -310,16 +314,21 @@
 	Encrypt with the public key and decrypt with the private key.  
 	The file name of the key must be written as -k:[path/]file_name. 
 	If the path or the file name contain spaces, use double quotes. 
-	Example: -k:"/home/user/.ssh/my key name.pub". 
-	If the private key is encrypted by a password, the flag -p can also be used with this option.</value>
+	
+	Example: -k:"/home/user/.ssh/my key name.pub" (Use always : as a separator!)
+	
+	If the private key is encrypted by a password, the flag -p: can also be used with this option.</value>
   </data>
   <data name="HelpFlagKeySize" xml:space="preserve">
     <value>-s:  
 	When creating a key, this flag will indicate the size of it. Possible values:
-	1024, 2048, 3072, 4096, 8192</value>
+
+	1024, 2048, 3072, 4096, 8192. 
+
+	Example:  -s:2048  (Use always : as a separator!) </value>
   </data>
   <data name="HelpFlagLaconic" xml:space="preserve">
-    <value>-l:
+    <value>-l
 	Laconic mode. Shows file operations only if there are errors. </value>
   </data>
   <data name="HelpFlagPassword" xml:space="preserve">
@@ -329,7 +338,8 @@
 	If no password is assigned but its needed, the program will prompt it for you.
 	If the password contains the space character or a double quote ("), surround it by quotes. 
 	The double quotes must then be doubled.
-	Example: -p"this is a password that contains a "" double quote"</value>
+	
+	Example: -p:"this is a password that contains a "" double quote" (Use always : as a separator!) </value>
   </data>
   <data name="HelpFlagRecursive" xml:space="preserve">
     <value>-r  

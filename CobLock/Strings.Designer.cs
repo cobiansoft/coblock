@@ -589,7 +589,7 @@ namespace Cobian.Locker {
         ///	aes128: Use the 128bit symmetric AES method.
         ///	aes192: Use the 192bit symmetric AES method
         ///	aes256: Use the 256bit symmetric AES method
-        ///	rsa: use the asymmetric RSA method. The -k flag must be used to indicate the key..
+        ///	rsa: use the asymmetric RSA method. The -k: flag must then be used to indicate the key. .
         /// </summary>
         internal static string HelpFlagEncryptionMethod {
             get {
@@ -613,8 +613,8 @@ namespace Cobian.Locker {
         ///	Encrypt with the public key and decrypt with the private key.  
         ///	The file name of the key must be written as -k:[path/]file_name. 
         ///	If the path or the file name contain spaces, use double quotes. 
-        ///	Example: -k:&quot;/home/user/.ssh/my key name.pub&quot;. 
-        ///	If the private key is encrypted by a password, the flag -p can also be used with this option..
+        ///	Example: -k:&quot;/home/user/.ssh/my key name.pub&quot; 
+        ///	If the private key is encrypted by a password, the flag -p: can also be used with this option..
         /// </summary>
         internal static string HelpFlagKey {
             get {
@@ -625,7 +625,7 @@ namespace Cobian.Locker {
         /// <summary>
         ///   Looks up a localized string similar to -s:  
         ///	When creating a key, this flag will indicate the size of it. Possible values:
-        ///	1024, 2048, 3072, 4096, 8192.
+        ///	1024, 2048, 3072, 4096, 8192. Example:  -s:2048.
         /// </summary>
         internal static string HelpFlagKeySize {
             get {
@@ -634,7 +634,7 @@ namespace Cobian.Locker {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -l:
+        ///   Looks up a localized string similar to -l
         ///	Laconic mode. Shows file operations only if there are errors. .
         /// </summary>
         internal static string HelpFlagLaconic {
@@ -650,7 +650,7 @@ namespace Cobian.Locker {
         ///	If no password is assigned but its needed, the program will prompt it for you.
         ///	If the password contains the space character or a double quote (&quot;), surround it by quotes. 
         ///	The double quotes must then be doubled.
-        ///	Example: -p&quot;this is a password that contains a &quot;&quot; double quote&quot;.
+        ///	Example: -p:&quot;this is a password that contains a &quot;&quot; double quote&quot; .
         /// </summary>
         internal static string HelpFlagPassword {
             get {

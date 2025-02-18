@@ -2,7 +2,7 @@
   "profiles": {
     "CobLock": {
       "commandName": "Project",
-      "commandLineArgs": "d c:\\users\\colu0001\\desktop\\DEC\\*.enc c:\\users\\colu0001\\desktop\\DEC"
+      "commandLineArgs": "help"
     }
   }
 }
