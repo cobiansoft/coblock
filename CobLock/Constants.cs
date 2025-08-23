@@ -125,8 +125,9 @@ namespace Cobian.Locker
         public const string FlagDelete = "-d";
         public const string FlagLaconic = "-l";
         public const string FlagDebug = "-!";
+        public const string FlagQuiet = "-q";
 
-   
+
         public const string IniHidden = "HiddenFiles";
         public const string IniKeyEncryption = "EncryptionKey";
         public const string IniKeyDecryption = "DecryptionKey";
