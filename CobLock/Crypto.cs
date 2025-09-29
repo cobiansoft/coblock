@@ -22,6 +22,10 @@
                                                                                   
 ***********************************************************************************/
 
+
+// Ignore Spelling: ENCRYPTEDHELLO
+
+using Cobian.Locker.Cryptography;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -30,7 +34,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 
-namespace Cobian.Locker.Cryptography
+namespace Cobian.Locker
 {
     /// <summary>
     /// A delegate to 
@@ -40,7 +44,7 @@ namespace Cobian.Locker.Cryptography
     public delegate void FileProgressDel(string source, int progress);
 
     /// <summary>
-    /// Cryptografic functions
+    /// Cryptographic functions
     /// </summary>
     internal static class Crypto
     {
@@ -74,7 +78,7 @@ namespace Cobian.Locker.Cryptography
 
             using RandomNumberGenerator random = RandomNumberGenerator.Create();
 
-            // Convert the plaintext string to a byte array
+            // Convert the plain text string to a byte array
             byte[] plaintextBytes = Encoding.Unicode.GetBytes(inString);
 
             byte[] salt = new byte[saltSize];
@@ -84,7 +88,7 @@ namespace Cobian.Locker.Cryptography
             // Derive a new password using the PBKDF2 algorithm and a random salt
 
             using Rfc2898DeriveBytes passwordBytes = new(password, salt, passwordIterations, HashAlgorithmName.SHA512);
-            // Use the password to encrypt the plaintext
+            // Use the password to encrypt the plain text
             using Aes encryptor = Aes.Create();
 
             encryptor.Padding = PaddingMode.PKCS7;
@@ -200,8 +204,8 @@ namespace Cobian.Locker.Cryptography
             var pub = rsa.ExportRSAPublicKey();
             var pri = rsa.ExportRSAPrivateKey();
 
-            SaveKey(false, publicFn, pub, null);
-            SaveKey(true, privateFn, pri, password);
+            SaveKey(false, publicFn, pub, null, (int)size);
+            SaveKey(true, privateFn, pri, password,(int)size);
         }
 
         /// <summary>
@@ -284,7 +288,7 @@ namespace Cobian.Locker.Cryptography
         /// Decrypts a file. Raises exceptions
         /// </summary>
         /// <param name="source">The encrypted file</param>
-        /// <param name="destination">Decryp to...</param>
+        /// <param name="destination">Decrypt to...</param>
         /// <param name="key">The key for asymmetric operations</param>
         /// <param name="password">The password</param>
         /// <param name="progress">Callback</param>
@@ -422,11 +426,9 @@ namespace Cobian.Locker.Cryptography
             // Use the password to decrypt the encrypted string
             aes.Key = passwordBytes.GetBytes(keybytes);
 
-#pragma warning disable CA5401
             aes.IV = iv;
             using CryptoStream cs = new(df, aes.CreateDecryptor(), CryptoStreamMode.Write);
             using CryptoStream csPh = new(ms, aes.CreateDecryptor(), CryptoStreamMode.Write);
-#pragma warning restore CA5401
 
             // read the size of the password flag
             read = sf.Read(bufferLong, 0, sizeof(long));
@@ -489,7 +491,7 @@ namespace Cobian.Locker.Cryptography
 
                 if (encryptedTotal != 0)
                 {
-                    percent = (int)(((double)total / encryptedTotal) * 100);
+                    percent = (int)((double)total / encryptedTotal * 100);
                     if (percent != lastPercent)
                     {
                         progress?.Invoke(source, percent);
@@ -601,7 +603,7 @@ namespace Cobian.Locker.Cryptography
 
                 if (total > 0 )
                 {
-                    percent = (int)(((double)current / total)* 100);
+                    percent = (int)((double)current / total* 100);
                     if (percent != lastPercent)
                     {
                         progress?.Invoke(source, percent);
@@ -748,7 +750,7 @@ namespace Cobian.Locker.Cryptography
             using var rsa = GetKey(key, false, password);
 
             // RSA block size limit is determined by key size and padding mode
-            int rsaBlockSize = (rsa.KeySize / 8) - 2*(Constants.RsaHashLength / 8) - 2;
+            int rsaBlockSize = rsa.KeySize / 8 - 2*(Constants.RsaHashLength / 8) - 2;
 
             long sourceSize = sf.Length;
 
@@ -779,7 +781,7 @@ namespace Cobian.Locker.Cryptography
 
                 if (sourceSize != 0)
                 {
-                    percent = (int)(((double)current / sourceSize) * 100);
+                    percent = (int)((double)current / sourceSize * 100);
 
                     if (percent != lastPercent)
                     {
@@ -848,21 +850,29 @@ namespace Cobian.Locker.Cryptography
                 if (s != null)
                 {
 
-                    if (s.Equals(Constants.KeyHeader, StringComparison.Ordinal)
-                        ||
-                        s.Equals(Constants.KeySubHeaderPub, StringComparison.Ordinal)
-                        ||
-                        s.Equals(Constants.KeySubHeaderPrE, StringComparison.Ordinal)
-                        ||
-                        s.Equals(Constants.KeySubHeaderPrv, StringComparison.Ordinal)
-                        ||
-                        s.Equals(Constants.KeyFooter, StringComparison.Ordinal))
-                    {
-                        if (s.Equals(Constants.KeySubHeaderPub, StringComparison.Ordinal))
-                            isPublic = true;
+                    if (s.Equals(Constants.KeyHeader, StringComparison.Ordinal))
+                        continue;
 
+                    if (s.Equals(Constants.KeyHeaderV2, StringComparison.Ordinal))
+                        continue; 
+
+                    if (s.Equals(Constants.KeySubHeaderPub, StringComparison.Ordinal))
+                    {
+                        isPublic = true;
                         continue;
                     }
+
+                    if (s.Equals(Constants.KeySubHeaderPrE, StringComparison.Ordinal))
+                        continue;
+
+                    if (s.Equals(Constants.KeySubHeaderPrv, StringComparison.Ordinal))
+                        continue;
+
+                    if (s.Equals(Constants.KeyFooter, StringComparison.Ordinal))
+                        continue;
+
+                    if (s.IndexOf(Constants.KeyFooterSizeH, StringComparison.Ordinal) == 0)
+                        continue;
 
                     sb.Append(s);
 
@@ -924,7 +934,8 @@ namespace Cobian.Locker.Cryptography
         /// <param name="fileName">The name of the file to store the key in</param>
         /// <param name="content">The content of the key</param>
         /// <param name="password">Encrypt if not null</param>
-        private static void SaveKey(bool isPrivate, string fileName, byte[] content, string? password)
+        /// <param name="keySize">The key size</param>
+        private static void SaveKey(bool isPrivate, string fileName, byte[] content, string? password, int keySize)
         {
             // The format of the key:
             // Header **** RSA key, Cobian Format ****
@@ -940,12 +951,16 @@ namespace Cobian.Locker.Cryptography
             // Footer **** End of the key ****
             // The file can have any encoding because it's pure ascii
 
+            //2025-09-29, version 2, compatible with Cobian Encryptor
+
             using FileStream stream = new(fileName, FileMode.Create, FileAccess.ReadWrite);
             using TextWriter writer = new StreamWriter(stream, Encoding.UTF8);
 
-            writer.WriteLine(Constants.KeyHeader);
+            writer.WriteLine(Constants.KeyHeaderV2);
+            writer.WriteLine(string.Format(CultureInfo.InvariantCulture,
+                Constants.KeyFooterSize, keySize.ToString(CultureInfo.InvariantCulture)).PadRight(Constants.KeyWidth, Constants.FooterChar));
             writer.WriteLine(isPrivate ?
-                (string.IsNullOrEmpty(password) ? Constants.KeySubHeaderPrv : Constants.KeySubHeaderPrE) :
+                string.IsNullOrEmpty(password) ? Constants.KeySubHeaderPrv : Constants.KeySubHeaderPrE :
                  Constants.KeySubHeaderPub);
 
             bool encrypt = false;

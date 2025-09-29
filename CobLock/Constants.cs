@@ -21,6 +21,9 @@
                                                                                   
 ***********************************************************************************/
 
+
+// Ignore Spelling: Aes Crypto Dont Encryptpassword Llave Rsa Prv
+
 namespace Cobian.Locker
 {
     /// <summary>
@@ -170,9 +173,24 @@ namespace Cobian.Locker
 
         public const int KeyWidth = 80;
         public const string KeyHeader =       "************************     RSA key, Cobian Format     ************************";
+        /// <summary>
+        /// The header of a RSA key, version 2
+        /// </summary>
+        public const string KeyHeaderV2 = "************************    RSA key, Cobian Format v2   ************************";
         public const string KeySubHeaderPub = "************************           Public key           ************************";
         public const string KeySubHeaderPrv = "************************           Private key          ************************";
         public const string KeySubHeaderPrE = "************************     Private key (encrypted)    ************************";
         public const string KeyFooter =       "************************          End of the key        ************************";
+        /// <summary>
+        /// The key footer size
+        /// </summary>
+        public const string KeyFooterSize = "******************************** KeySize: {0} ";
+
+        /// <summary>
+        /// The header key footer size
+        /// </summary>
+        public static string KeyFooterSizeH = KeyFooterSize[..42]; 
+
+        public const char FooterChar = '*';
     }
 }

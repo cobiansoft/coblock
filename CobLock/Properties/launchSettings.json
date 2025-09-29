@@ -2,7 +2,7 @@
   "profiles": {
     "CobLock": {
       "commandName": "Project",
-      "commandLineArgs": "help"
+      "commandLineArgs": "e -m:rsa -k:\"C:\\Users\\colu0001\\Desktop\\DEC\\win-x64\\pp.pub\" \"C:\\Users\\colu0001\\Desktop\\DEC\\win-x64\\license.txt\" \".\\ppp\"\r\n"
     }
   }
 }
