@@ -50,7 +50,7 @@ namespace Cobian.Locker
             if (parser.Debug)
             {
                 Console.WriteLine(Strings.MsgDebug);
-                _= Console.ReadLine();
+                _ = Console.ReadLine();
             }
 #endif
 
@@ -64,6 +64,9 @@ namespace Cobian.Locker
         /// <param name="error">The error to show</param>
         private static void ShowError(string error)
         {
+            if (parser?.Quiet == true)
+                return;
+
             Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ErrorHeader, error));
         }
 
@@ -72,6 +75,9 @@ namespace Cobian.Locker
         /// </summary>
         private static void ShowAbout()
         {
+            if (parser?.Quiet == true)
+                return;
+
             Console.WriteLine(string.Format(CultureInfo.CurrentCulture,
                 Strings.AboutProgram, Custom.AppNameLong, Custom.AppName));
             Console.WriteLine(string.Format(CultureInfo.CurrentCulture,
@@ -88,6 +94,9 @@ namespace Cobian.Locker
         /// </summary>
         private static void ShowHelp()
         {
+            if (parser?.Quiet == true)
+                return;
+
             Console.WriteLine(string.Format(CultureInfo.CurrentCulture,
                 Strings.HelpIntro, Custom.AppNameLong, Custom.AppName));
             Console.WriteLine();
@@ -126,6 +135,7 @@ namespace Cobian.Locker
             Console.WriteLine(Strings.HelpFlagEncryptionMethod);
             Console.WriteLine(Strings.HelpFlagLaconic);
             Console.WriteLine(Strings.HelpFlagPassword);
+            Console.WriteLine(Strings.HelpFlagQuiet);
             Console.WriteLine(Strings.HelpFlagRecursive);
             Console.WriteLine(Strings.HelpFlagKeySize);
             Console.WriteLine(Strings.HelpFlagYes);
@@ -144,7 +154,7 @@ namespace Cobian.Locker
 
         private static ConsoleAnswer AnswerQuestion(string question, bool acceptAll, bool acceptCancel)
         {
-            Console.Write(question + Constants.Space);
+            ConsoleWrite(question + Constants.Space);
 
             string? info;
 
@@ -156,9 +166,9 @@ namespace Cobian.Locker
                     return ConsoleAnswer.Cancel;
 
                 bool ok = ((info.Equals(Constants.StringYes, StringComparison.Ordinal))
-                    || (info.Equals(Constants.StringNo, StringComparison.Ordinal)) ||
-                    ((info.Equals(Constants.StringAll, StringComparison.Ordinal)) && acceptAll) ||
-                    ((info.Equals(Constants.StringCancel, StringComparison.Ordinal)) && acceptCancel));
+                           || (info.Equals(Constants.StringNo, StringComparison.Ordinal)) ||
+                           ((info.Equals(Constants.StringAll, StringComparison.Ordinal)) && acceptAll) ||
+                           ((info.Equals(Constants.StringCancel, StringComparison.Ordinal)) && acceptCancel));
 
                 if (ok)
                 {
@@ -171,17 +181,17 @@ namespace Cobian.Locker
                         _ => ConsoleAnswer.Cancel,
                     };
                 }
-                else
-                {
-                    Console.WriteLine(Strings.MsgInvalidAnswer);
-                    Console.Write(question + Constants.Space);
-                }
-            }
-            while (true);
+
+                ConsoleWriteLine(Strings.MsgInvalidAnswer);
+                ConsoleWrite(question + Constants.Space);
+            } while (true);
         }
 
         private static void ShowSpecialMessage(string msg)
         {
+            if (parser?.Quiet == true)
+                return;
+
             Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.StrSpecialMessage, msg));
         }
 
@@ -265,6 +275,9 @@ namespace Cobian.Locker
         /// <returns></returns>
         private static string MaskPassword()
         {
+            if (parser?.Quiet == true)
+                return String.Empty;
+
             string pwd = string.Empty;
 
             ConsoleKey key;
@@ -275,17 +288,17 @@ namespace Cobian.Locker
 
                 if (key == ConsoleKey.Backspace && pwd.Length > 0)
                 {
-                    Console.Write(Constants.DoubleBack);
+                    ConsoleWrite(Constants.DoubleBack);
                     pwd = pwd[0..^1];
                 }
                 else if (!char.IsControl(keyInfo.KeyChar))
                 {
-                    Console.Write(Constants.ConsoleMask);
+                    ConsoleWrite(Constants.ConsoleMask);
                     pwd += keyInfo.KeyChar;
                 }
             } while (key != ConsoleKey.Enter);
 
-            Console.WriteLine();
+            ConsoleWriteLine();
 
             return pwd;
         }
@@ -296,12 +309,12 @@ namespace Cobian.Locker
         /// <returns>The result of the operation</returns>
         private static int EncryptPassword()
         {
-            Console.WriteLine(Strings.MsgEncryptPasswordEnter);
+            ConsoleWriteLine(Strings.MsgEncryptPasswordEnter);
 
             string pwd = MaskPassword();
 
 
-            Console.WriteLine(Strings.MsgEncryptPasswordEnterRe);
+            ConsoleWriteLine(Strings.MsgEncryptPasswordEnterRe);
 
             string pwdRe = MaskPassword();
 
@@ -310,13 +323,11 @@ namespace Cobian.Locker
                 ShowError(Strings.ErrPasswordsDontMatch);
                 return Constants.ExitPasswordsDontMatch;
             }
-            else
-            {
-                string s = Crypto.EncryptString(pwd, Custom.Guid);
-                Console.WriteLine();
-                Console.WriteLine(s);
-                return Constants.ExitOk;
-            }
+
+            string s = Crypto.EncryptString(pwd, Custom.Guid);
+            ConsoleWriteLine();
+            ConsoleWriteLine(s);
+            return Constants.ExitOk;
         }
 
         /// <summary>
@@ -325,17 +336,16 @@ namespace Cobian.Locker
         /// <returns>The result of the operation</returns>
         private static int CreateKeyPair()
         {
-
             if (parser == null)
                 return Constants.ExitNoParser;
 
-            Console.WriteLine(Strings.MsgCreateKey);
+            ConsoleWriteLine(Strings.MsgCreateKey);
 
             string? fn;
 
             if (string.IsNullOrEmpty(parser.Source))
             {
-                Console.Write(Strings.MsgCreateKeyFileName);
+                ConsoleWrite(Strings.MsgCreateKeyFileName);
                 fn = Console.ReadLine();
             }
             else
@@ -365,18 +375,18 @@ namespace Cobian.Locker
 
             if (parser.KeySize == null)
             {
-                Console.WriteLine(Strings.MsgUsingDefaultKeySize);
+                ConsoleWriteLine(Strings.MsgUsingDefaultKeySize);
                 parser.KeySize = AsymmetricKeySize.Size2048;
             }
 
             if (string.IsNullOrEmpty(parser.Password))
             {
-                Console.WriteLine(Strings.MsgEnterKeyPassword);
+                ConsoleWriteLine(Strings.MsgEnterKeyPassword);
                 var pwd = MaskPassword();
 
                 if (!string.IsNullOrEmpty(pwd))
                 {
-                    Console.WriteLine(Strings.MsgEnterKeyPasswordRe);
+                    ConsoleWriteLine(Strings.MsgEnterKeyPasswordRe);
                     var pwdRe = MaskPassword();
 
                     if (!pwd.Equals(pwdRe, StringComparison.Ordinal))
@@ -393,8 +403,8 @@ namespace Cobian.Locker
             {
                 Crypto.CreateKeyPair(publicKey, privateKey, parser.Password, parser.KeySize.Value);
 
-                Console.WriteLine(Strings.MsgKeysCreatedSuccessfully);
-                Console.WriteLine(Strings.MsgKeysWarning);
+                ConsoleWriteLine(Strings.MsgKeysCreatedSuccessfully);
+                ConsoleWriteLine(Strings.MsgKeysWarning);
 
                 return Constants.ExitOk;
             }
@@ -414,31 +424,31 @@ namespace Cobian.Locker
         {
             if (parser == null)
             {
-                Console.WriteLine(Strings.ErrParserNotFound);
+                ConsoleWriteLine(Strings.ErrParserNotFound);
                 return Constants.ExitNoParser;
             }
 
             if (string.IsNullOrEmpty(parser.Source))
             {
-                Console.WriteLine(Strings.MsgEnterSource);
+                ConsoleWriteLine(Strings.MsgEnterSource);
                 parser.Source = Console.ReadLine();
             }
 
             if (string.IsNullOrEmpty(parser.Source))
             {
-                Console.WriteLine(Strings.ErrNoSource);
+                ConsoleWriteLine(Strings.ErrNoSource);
                 return Constants.ExitNoSource;
             }
 
             if (string.IsNullOrEmpty(parser.Destination))
             {
-                Console.WriteLine(Strings.MsgEnterDestination);
+                ConsoleWriteLine(Strings.MsgEnterDestination);
                 parser.Destination = Console.ReadLine();
             }
 
             if (string.IsNullOrEmpty(parser.Destination))
             {
-                Console.WriteLine(Strings.ErrNoDestination);
+                ConsoleWriteLine(Strings.ErrNoDestination);
                 return Constants.ExitNoDestination;
             }
 
@@ -458,7 +468,7 @@ namespace Cobian.Locker
 
                 if (string.IsNullOrEmpty(parser.Key))
                 {
-                    Console.WriteLine(Strings.MsgEnterPublicKey);
+                    ConsoleWriteLine(Strings.MsgEnterPublicKey);
                     parser.Key = Console.ReadLine();
                 }
 
@@ -467,21 +477,21 @@ namespace Cobian.Locker
             {
                 if (string.IsNullOrEmpty(parser.Password))
                 {
-                    Console.WriteLine(Strings.MsgEnterPasswordForEncryption);
+                    ConsoleWriteLine(Strings.MsgEnterPasswordForEncryption);
                     string p = MaskPassword();
 
                     if (string.IsNullOrEmpty(p))
                     {
-                        Console.WriteLine(Strings.ErrEmptyPasswordEnc);
+                        ConsoleWriteLine(Strings.ErrEmptyPasswordEnc);
                         return Constants.ExitWeakPassword;
                     }
 
-                    Console.WriteLine(Strings.MsgReEnterPasswordForEncryption);
+                    ConsoleWriteLine(Strings.MsgReEnterPasswordForEncryption);
                     string pp = MaskPassword();
 
                     if (!pp.Equals(p, StringComparison.Ordinal))
                     {
-                        Console.WriteLine(Strings.ErrPasswordsDontMatch);
+                        ConsoleWriteLine(Strings.ErrPasswordsDontMatch);
                         return Constants.ExitPasswordsDontMatch;
                     }
 
@@ -495,27 +505,29 @@ namespace Cobian.Locker
             switch (kind)
             {
                 case SDType.Unknown:
-                    {
-                        Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
-                        return Constants.ExitUnknownSource;
-                    }
+                {
+                    ConsoleWriteLine(
+                        string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
+                    return Constants.ExitUnknownSource;
+                }
                 case SDType.File:
-                    {
-                        return EncryptFile();
-                    }
+                {
+                    return EncryptFile();
+                }
                 case SDType.Directory:
-                    {
-                        return EncryptDirectory();
-                    }
+                {
+                    return EncryptDirectory();
+                }
                 case SDType.Mask:
-                    {
-                        return EncryptMask();
-                    }
+                {
+                    return EncryptMask();
+                }
                 default:
-                    {
-                        Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
-                        return Constants.ExitUnknownSource;
-                    }
+                {
+                    ConsoleWriteLine(
+                        string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
+                    return Constants.ExitUnknownSource;
+                }
             }
         }
 
@@ -525,7 +537,10 @@ namespace Cobian.Locker
         /// <param name="msg">The message to show</param>
         private static void ShowMessageLaconic(string msg)
         {
-            bool laconic = parser != null && parser.Laconic;
+            if (parser?.Quiet == true)
+                return;
+
+            bool laconic = parser is { Laconic: true };
 
             if (laconic)
                 Console.WriteLine(msg);
@@ -542,7 +557,7 @@ namespace Cobian.Locker
 
             if (string.IsNullOrEmpty(parser.Destination))
             {
-                Console.WriteLine(Strings.ErrNoDestination);
+                ConsoleWriteLine(Strings.ErrNoDestination);
                 return Constants.ExitNoDestination;
             }
 
@@ -601,7 +616,7 @@ namespace Cobian.Locker
 
             if (string.IsNullOrEmpty(parser.Destination))
             {
-                Console.WriteLine(Strings.ErrNoDestination);
+                ConsoleWriteLine(Strings.ErrNoDestination);
                 return Constants.ExitNoDestination;
             }
 
@@ -665,7 +680,7 @@ namespace Cobian.Locker
 
             if (method == EncryptionMethod.UnknownMethod)
             {
-                Console.WriteLine(string.Format(CultureInfo.CurrentCulture,
+                ConsoleWriteLine(string.Format(CultureInfo.CurrentCulture,
                     Strings.ErrUnknownDecryptionMethod, source));
                 return Constants.ExitUnknownEncryptionMethod;
             }
@@ -676,13 +691,13 @@ namespace Cobian.Locker
             {
                 if (string.IsNullOrEmpty(parser.Key))
                 {
-                    Console.WriteLine(Strings.MsgEnterPrivateKey);
+                    ConsoleWriteLine(Strings.MsgEnterPrivateKey);
                     parser.Key = Console.ReadLine();
                 }
 
-                if (string.IsNullOrEmpty (parser.Password))
+                if (string.IsNullOrEmpty(parser.Password))
                 {
-                    Console.WriteLine(Strings.MsgDecryptKeyPassword);
+                    ConsoleWriteLine(Strings.MsgDecryptKeyPassword);
                     parser.Password = MaskPassword();
                 }
             }
@@ -690,7 +705,7 @@ namespace Cobian.Locker
             {
                 if (string.IsNullOrEmpty(parser.Password))
                 {
-                    Console.WriteLine(Strings.MsgEnterPasswordDecryption);
+                    ConsoleWriteLine(Strings.MsgEnterPasswordDecryption);
                     parser.Password = MaskPassword();
                 }
             }
@@ -1178,32 +1193,32 @@ namespace Cobian.Locker
         {
             if (parser == null)
             {
-                Console.WriteLine(Strings.ErrParserNotFound);
+                ConsoleWriteLine(Strings.ErrParserNotFound);
                 return Constants.ExitNoParser;
             }
 
             if (string.IsNullOrEmpty(parser.Source))
             {
-                Console.WriteLine(Strings.MsgEnterSourceD);
+                ConsoleWriteLine(Strings.MsgEnterSourceD);
                 parser.Source = Console.ReadLine();
             }
 
             if (string.IsNullOrEmpty(parser.Source))
             {
-                Console.WriteLine(Strings.ErrNoSourceD);
+                ConsoleWriteLine(Strings.ErrNoSourceD);
                 return Constants.ExitNoSource;
             }
 
             if (string.IsNullOrEmpty(parser.Destination))
             {
-                Console.WriteLine(Strings.MsgEnterDestination);
+                ConsoleWriteLine(Strings.MsgEnterDestination);
                 parser.Destination = Console.ReadLine();
             }
 
 
             if (string.IsNullOrEmpty(parser.Destination))
             {
-                Console.WriteLine(Strings.ErrNoDestination);
+                ConsoleWriteLine(Strings.ErrNoDestination);
                 return Constants.ExitNoDestination;
             }
 
@@ -1218,27 +1233,27 @@ namespace Cobian.Locker
             switch (kind)
             {
                 case SDType.Unknown:
-                    {
-                        Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
-                        return Constants.ExitUnknownSource;
-                    }
+                {
+                    ConsoleWriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
+                    return Constants.ExitUnknownSource;
+                }
                 case SDType.File:
-                    {
-                        return DecryptFile();
-                    }
+                {
+                    return DecryptFile();
+                }
                 case SDType.Directory:
-                    {
-                        return DecryptDirectory();
-                    }
+                {
+                    return DecryptDirectory();
+                }
                 case SDType.Mask:
-                    {
-                        return DecryptMask();
-                    }
+                {
+                    return DecryptMask();
+                }
                 default:
-                    {
-                        Console.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
-                        return Constants.ExitUnknownSource;
-                    }
+                {
+                    ConsoleWriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ErrUnknownSource, parser.Source));
+                    return Constants.ExitUnknownSource;
+                }
             }
         }
 
@@ -1257,46 +1272,46 @@ namespace Cobian.Locker
             switch (parser.Command)
             {
                 case Verb.NoVerb:
-                    {
-                        ShowError(Strings.ErrNoVerb);
-                        return Constants.ExitNoArguments;
-                    }
+                {
+                    ShowError(Strings.ErrNoVerb);
+                    return Constants.ExitNoArguments;
+                }
                 case Verb.Help:
-                    {
-                        ShowHelp();
-                        break;
-                    }
+                {
+                    ShowHelp();
+                    break;
+                }
                 case Verb.Version: //same as about
                 case Verb.About:
-                    {
-                        ShowAbout();
-                        break;
-                    }
+                {
+                    ShowAbout();
+                    break;
+                }
                 case Verb.CreateKeys:
-                    {
-                        return CreateKeyPair();
-                    }
+                {
+                    return CreateKeyPair();
+                }
                 case Verb.Encrypt:
-                    {
-                        return Encrypt();
-                    }
+                {
+                    return Encrypt();
+                }
                 case Verb.Decrypt:
-                    {
-                        return Decrypt();
-                    }
+                {
+                    return Decrypt();
+                }
                 case Verb.EncryptPassword:
-                    {
-                        return EncryptPassword();
-                    }
+                {
+                    return EncryptPassword();
+                }
                 case Verb.Config:
-                    {
-                        return CreateConfigFile();
-                    }
+                {
+                    return CreateConfigFile();
+                }
                 default:
-                    {
-                        ShowError(Strings.ErrUnknownVerb);
-                        return Constants.ExitNoArguments;
-                    }
+                {
+                    ShowError(Strings.ErrUnknownVerb);
+                    return Constants.ExitNoArguments;
+                }
             }
 
 #if DEBUG
@@ -1304,6 +1319,33 @@ namespace Cobian.Locker
 #endif
 
             return Constants.ExitOk;
+        }
+
+        /// <summary>
+        /// Show a message respecting to call to <see cref="Console.WriteLine()"/>
+        /// </summary>
+        /// <param name="msg">The message to show</param>
+        private static void ConsoleWriteLine(string? msg = null)
+        {
+            if (parser?.Quiet == true)
+                return;
+
+            if (string.IsNullOrEmpty(msg))
+                Console.WriteLine();
+            else
+                Console.WriteLine(msg);
+        }
+
+        /// <summary>
+        /// Show a message respecting to call to <see cref="Console.Write(string)"/>
+        /// </summary>
+        /// <param name="msg">The message to show</param>
+        private static void ConsoleWrite(string msg)
+        {
+            if (parser?.Quiet == true)
+                return;
+
+            Console.Write(msg);
         }
     }
 }

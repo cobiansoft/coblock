@@ -341,6 +341,10 @@
 	
 	Example: -p:"this is a password that contains a "" double quote" (Use always : as a separator!) </value>
   </data>
+  <data name="HelpFlagQuiet" xml:space="preserve">
+    <value>-q
+	Quiet mode. Does not show any type of operations.</value>
+  </data>
   <data name="HelpFlagRecursive" xml:space="preserve">
     <value>-r  
 	If the source is a directory, then process all subdirectories as well.</value>
