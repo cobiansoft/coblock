@@ -27,14 +27,14 @@
 namespace Cobian.Locker
 {
     /// <summary>
-    /// Constants used by the porgram
+    /// Constants used by the program
     /// </summary>
     internal static class Constants
     {
         /// <summary>
         /// The program version
         /// </summary>
-        public static string Version = "1.0.0";
+        public static string Version = "2.0.0";
 
 
         //results
@@ -146,8 +146,11 @@ namespace Cobian.Locker
         public const char CharQuotes = '"';
         public const char CharHidden = '.';
 
-        public const long CobAesFlag = 0xC0BAE5F0F0F0F;
-        public const long CobRsaFlag = 0xC0B78AF0F0F0F;
+        public const long _CobAesFlag = 0xC0BAE5F0F0F0F;
+        public const long _CobRsaFlag = 0xC0B78AF0F0F0F;
+
+        public const long CobAesFlagV2 = 0xC0BAE5F0F0F0F2;
+        public const long CobRsaFlagV2 = 0xC0B78AF0F0F0F2;
 
         public const string DoubleQuotes = "\"\"";
         public const string Quotes = "\"";
@@ -170,6 +173,8 @@ namespace Cobian.Locker
         public const string PredicateSize8192 = "8192";
 
         public const int BufferSize = 32768;
+
+        public const int BufferSizeAES = 1_048_576;
 
         public const int KeyWidth = 80;
         public const string KeyHeader =       "************************     RSA key, Cobian Format     ************************";

@@ -189,6 +189,23 @@ namespace Cobian.Locker
             }
         }
 
+        /// <summary>
+        /// Work always in big-endian (v2 only)
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="valueIsLittleEndian"></param>
+        /// <returns></returns>
+        private static byte[] EnsureBigEndian(byte[] array, bool valueIsLittleEndian)
+        {
+            if (valueIsLittleEndian)
+            {
+                Array.Reverse(array); // Reverse to convert to Big-Endian
+                return array;
+            }
+            else
+                return array;
+        }
+
 
         /// <summary>
         /// Create and save a pair of keys. Raises exceptions
@@ -205,7 +222,7 @@ namespace Cobian.Locker
             var pri = rsa.ExportRSAPrivateKey();
 
             SaveKey(false, publicFn, pub, null, (int)size);
-            SaveKey(true, privateFn, pri, password,(int)size);
+            SaveKey(true, privateFn, pri, password, (int)size);
         }
 
         /// <summary>
@@ -250,26 +267,31 @@ namespace Cobian.Locker
 
         /// <summary>
         /// Check if the given file is an encrypted file .
-        /// If the encryption is Aes, irt will return AES128 regardless of its true size
+        /// If the encryption is Aes, it will return AES128 regardless of its true size
         /// </summary>
         /// <param name="fileName">The name of the file</param>
         /// <returns>The type of the file</returns>
         public static EncryptionMethod IsEncrypted(string fileName)
         {
+
             try
             {
                 using FileStream fs = new(fileName, FileMode.Open, FileAccess.Read);
                 byte[] buffer = new byte[sizeof(long)];
                 fs.Read(buffer, 0, sizeof(long));
-                long header = BitConverter.ToInt64(buffer);
+                long header = BitConverter.ToInt64(EnsureBigEndian(buffer, BitConverter.IsLittleEndian));
 
                 EncryptionMethod result;
 
-                if (header == Constants.CobAesFlag)
+                if (header == Constants.CobAesFlagV2)
+                {
                     result = EncryptionMethod.AES128;
+                }
                 else
-                    if (header == Constants.CobRsaFlag)
+                    if (header == Constants.CobRsaFlagV2)
+                {
                     result = EncryptionMethod.RSA;
+                }
                 else
                     result = EncryptionMethod.UnknownMethod;
 
@@ -277,7 +299,7 @@ namespace Cobian.Locker
 
                 return result;
             }
-            catch 
+            catch
             {
                 return EncryptionMethod.UnknownMethod;
             }
@@ -294,6 +316,7 @@ namespace Cobian.Locker
         /// <param name="progress">Callback</param>
         public static void DecryptFile(string source, string destination, string? key, string? password, FileProgressDel? progress)
         {
+
             if (string.IsNullOrEmpty(source))
                 throw new ArgumentNullException(nameof(source));
 
@@ -305,19 +328,19 @@ namespace Cobian.Locker
 
             fs.Read(buffer, 0, sizeof(long));
 
-            long header = BitConverter.ToInt64(buffer);
+            long header = BitConverter.ToInt64(EnsureBigEndian(buffer, BitConverter.IsLittleEndian));
 
             fs.Position = 0;
 
-            if (header == Constants.CobAesFlag)
+            if (header == Constants.CobAesFlagV2)
             {
                 if (string.IsNullOrEmpty(password))
                     throw new ArgumentNullException(nameof(password));
 
-                DecryptFileSymmetric(fs,source,  destination, password, progress);
+                DecryptFileSymmetric(fs, source, destination, password, progress);
             }
             else
-                if (header == Constants.CobRsaFlag)
+                if (header == Constants.CobRsaFlagV2)
             {
                 if (string.IsNullOrEmpty(key))
                     throw new ArgumentNullException(nameof(key));
@@ -330,7 +353,7 @@ namespace Cobian.Locker
             fs.Close();
         }
 
-        private static void DecryptFileSymmetric([NotNull] FileStream sf, [NotNull] string source, 
+        private static void DecryptFileSymmetric([NotNull] FileStream sf, [NotNull] string source,
                     [NotNull] string destination, [NotNull] string password,
                 FileProgressDel? progress)
         {
@@ -348,10 +371,10 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrCorruptedFile);
             }
 
-            long flag = BitConverter.ToInt64(bufferLong);
+            long flag = BitConverter.ToInt64(EnsureBigEndian(bufferLong, BitConverter.IsLittleEndian));
 
             // read the encryption flag
-            if (flag != Constants.CobAesFlag)
+            if (flag != Constants.CobAesFlagV2)
                 throw new CryptographicException(Strings.ErrBadEncryptionHeader);
 
             long originalSize = 0;
@@ -365,7 +388,7 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrCorruptedFile);
             }
 
-            originalSize = BitConverter.ToInt64(bufferLong);
+            originalSize = BitConverter.ToInt64(EnsureBigEndian(bufferLong, BitConverter.IsLittleEndian));
 
             //Read the size of the key
             read = sf.Read(bufferInt, 0, sizeof(int));
@@ -375,7 +398,7 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrCorruptedFile);
             }
 
-            keybytes = BitConverter.ToInt32(bufferInt);
+            keybytes = BitConverter.ToInt32(EnsureBigEndian(bufferInt, BitConverter.IsLittleEndian));
 
             //Read the length of the salt
             read = sf.Read(bufferInt, 0, sizeof(int));
@@ -385,7 +408,7 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrCorruptedFile);
             }
 
-            saltLength = BitConverter.ToInt32(bufferInt);
+            saltLength = BitConverter.ToInt32(EnsureBigEndian( bufferInt, BitConverter.IsLittleEndian));
 
             //Read the salt
             byte[] salt = new byte[saltLength];
@@ -405,10 +428,10 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrCorruptedFile);
             }
 
-            ivLength = BitConverter.ToInt32(bufferInt);
+            ivLength = BitConverter.ToInt32(EnsureBigEndian(bufferInt, BitConverter.IsLittleEndian));
 
             byte[] iv = new byte[ivLength];
-            
+
             //read the iv
             read = sf.Read(iv, 0, ivLength);
 
@@ -438,7 +461,7 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrCorruptedFile);
             }
 
-            long paswordFlagSize = BitConverter.ToInt64(bufferLong);
+            long paswordFlagSize = BitConverter.ToInt64(EnsureBigEndian(bufferLong, BitConverter.IsLittleEndian));
 
             byte[] passwordFlagBytes = new byte[paswordFlagSize];
 
@@ -462,21 +485,21 @@ namespace Cobian.Locker
             string passwordFlag = Encoding.Unicode.GetString(ms.ToArray());
 
             csPh.Close();
-            ms.Close();            
+            ms.Close();
 
             if (!passwordFlag.Equals(Constants.Llave, StringComparison.Ordinal))
             {
                 throw new CryptographicException(Strings.ErrBadPasswordOrCorruptedFile);
-            }       
+            }
 
             //Password OK. Now proceed
-                        
+
 
             long total = 0;
             int percent = 0, lastPercent = 0;
             long encryptedTotal = sf.Length - sf.Position;
 
-            byte[] buffer = new byte[Constants.BufferSize];
+            byte[] buffer = new byte[Constants.BufferSizeAES];
 
             do
             {
@@ -487,7 +510,7 @@ namespace Cobian.Locker
 
                 cs.Write(buffer, 0, read);
 
-               total += read;
+                total += read;
 
                 if (encryptedTotal != 0)
                 {
@@ -509,13 +532,13 @@ namespace Cobian.Locker
 
             cs.Flush();
             cs.Close();
-            sf.Close();            
+            sf.Close();
 
             df.Close();
 
         }
 
-        private static void DecryptFileAssymetric([NotNull]FileStream sf, [NotNull] string source, [NotNull] string destination, [NotNull] string key,
+        private static void DecryptFileAssymetric([NotNull] FileStream sf, [NotNull] string source, [NotNull] string destination, [NotNull] string key,
             string? password, FileProgressDel? progress)
         {
             using FileStream df = new(destination, FileMode.Create, FileAccess.Write);
@@ -532,9 +555,9 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrBadEncryptionHeader);
             }
 
-            long header = BitConverter.ToInt64(bufferLong);
+            long header = BitConverter.ToInt64(EnsureBigEndian(bufferLong, BitConverter.IsLittleEndian));
 
-            if (header != Constants.CobRsaFlag)
+            if (header != Constants.CobRsaFlagV2)
             {
                 throw new CryptographicException(Strings.ErrBadEncryptionHeader);
             }
@@ -548,7 +571,7 @@ namespace Cobian.Locker
                 throw new CryptographicException(Strings.ErrBadEncryptionHeader);
             }
 
-            long originalSize = BitConverter.ToInt64(bufferLong);
+            long originalSize = BitConverter.ToInt64(EnsureBigEndian(bufferLong, BitConverter.IsLittleEndian));
 
             long current = 0;
             int lastPercent = 0, percent = 0;
@@ -574,7 +597,7 @@ namespace Cobian.Locker
                 current += read;
 
                 // Read the size of the encrypted chunk
-                int encryptedChunkSize = BitConverter.ToInt32(bufferInt);
+                int encryptedChunkSize = BitConverter.ToInt32(EnsureBigEndian(bufferInt, BitConverter.IsLittleEndian));
 
                 byte[] encryptedChunk = new byte[encryptedChunkSize];
 
@@ -601,9 +624,9 @@ namespace Cobian.Locker
                     throw new CryptographicException(Strings.ErrBadKeyOrCorruptedFile);
                 }
 
-                if (total > 0 )
+                if (total > 0)
                 {
-                    percent = (int)((double)current / total* 100);
+                    percent = (int)((double)current / total * 100);
                     if (percent != lastPercent)
                     {
                         progress?.Invoke(source, percent);
@@ -616,7 +639,7 @@ namespace Cobian.Locker
 
             df.Flush();
             long endSize = df.Length;
-            
+
 
             if (originalSize != df.Length)
             {
@@ -675,24 +698,24 @@ namespace Cobian.Locker
             long inputLength = sf.Length;
 
             //Write the type of file
-            df.Write(BitConverter.GetBytes(Constants.CobAesFlag));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(Constants.CobAesFlagV2), BitConverter.IsLittleEndian));
             //Write the original size of the source
-            df.Write(BitConverter.GetBytes(inputLength));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(inputLength), BitConverter.IsLittleEndian));
             //write the key size in bytes
-            df.Write(BitConverter.GetBytes(keySize));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(keySize), BitConverter.IsLittleEndian));
             //write the length of the salt
-            df.Write(BitConverter.GetBytes(salt.Length));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(salt.Length), BitConverter.IsLittleEndian));
             //write the salt
             df.Write(salt);
             //write the length of the iv
-            df.Write(BitConverter.GetBytes(aes.IV.Length));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(aes.IV.Length), BitConverter.IsLittleEndian));
             //write the iv
             df.Write(aes.IV);
 
-            byte[] buffer = new byte[Constants.BufferSize];
+            byte[] buffer = new byte[Constants.BufferSizeAES];
             var pb = Encoding.Unicode.GetBytes(Constants.Llave);
 
-            using CryptoStream cryptoStream = new(df, aes.CreateEncryptor(), CryptoStreamMode.Write);          
+            using CryptoStream cryptoStream = new(df, aes.CreateEncryptor(), CryptoStreamMode.Write);
 
             //used for the password header
             //Encrypt it and store it.
@@ -700,9 +723,9 @@ namespace Cobian.Locker
             using CryptoStream cryptoStreamPH = new(msPH, aes.CreateEncryptor(), CryptoStreamMode.Write);
             cryptoStreamPH.Write(pb, 0, pb.Length);
             cryptoStreamPH.FlushFinalBlock();
-            
+
             //write the encrypted password length
-            df.Write(BitConverter.GetBytes(msPH.Length));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(msPH.Length), BitConverter.IsLittleEndian));
             //write the encrypted password
             msPH.Position = 0;
             msPH.CopyTo(df);
@@ -720,7 +743,7 @@ namespace Cobian.Locker
                 read = sf.Read(buffer);
                 total += read;
                 cryptoStream.Write(buffer, 0, read);
-                
+
                 if (inputLength != 0)
                     percent = (int)((double)total / inputLength) * 100;
 
@@ -750,14 +773,14 @@ namespace Cobian.Locker
             using var rsa = GetKey(key, false, password);
 
             // RSA block size limit is determined by key size and padding mode
-            int rsaBlockSize = rsa.KeySize / 8 - 2*(Constants.RsaHashLength / 8) - 2;
+            int rsaBlockSize = rsa.KeySize / 8 - 2 * (Constants.RsaHashLength / 8) - 2;
 
             long sourceSize = sf.Length;
 
             // add the flag
-            df.Write(BitConverter.GetBytes(Constants.CobRsaFlag));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(Constants.CobRsaFlagV2), BitConverter.IsLittleEndian));
             //Write the original size of the source
-            df.Write(BitConverter.GetBytes(sourceSize));
+            df.Write(EnsureBigEndian(BitConverter.GetBytes(sourceSize), BitConverter.IsLittleEndian));
 
             byte[] buffer = new byte[rsaBlockSize];
             int bytesRead;
@@ -773,9 +796,8 @@ namespace Cobian.Locker
                 byte[] encryptedData = rsa.Encrypt(buffer.AsSpan(0, bytesRead).ToArray(), RSAEncryptionPadding.OaepSHA256);
 
                 // Write the encrypted chunk size followed by the encrypted data
-                df.Write(BitConverter.GetBytes(encryptedData.Length), 0, sizeof(int));
+                df.Write(EnsureBigEndian(BitConverter.GetBytes(encryptedData.Length), BitConverter.IsLittleEndian), 0, sizeof(int));
                 df.Write(encryptedData, 0, encryptedData.Length);
-
 
                 current += bytesRead;
 
@@ -827,7 +849,7 @@ namespace Cobian.Locker
         }
 
         /// <summary>
-        /// Loads a key frm file 
+        /// Loads a key from file 
         /// </summary>
         /// <param name="fileName">The name of the file</param>
         /// <param name="password">The password</param>
@@ -854,7 +876,7 @@ namespace Cobian.Locker
                         continue;
 
                     if (s.Equals(Constants.KeyHeaderV2, StringComparison.Ordinal))
-                        continue; 
+                        continue;
 
                     if (s.Equals(Constants.KeySubHeaderPub, StringComparison.Ordinal))
                     {
