@@ -31,11 +31,6 @@ namespace Cobian.Locker
     /// </summary>
     internal static class Constants
     {
-        /// <summary>
-        /// The program version
-        /// </summary>
-        public static string Version = "2.0.0";
-
 
         //results
 
