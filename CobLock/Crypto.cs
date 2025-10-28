@@ -345,7 +345,7 @@ namespace Cobian.Locker
                 if (string.IsNullOrEmpty(key))
                     throw new ArgumentNullException(nameof(key));
 
-                DecryptFileAssymetric(fs, source, destination, key, password, progress);
+                DecryptFileAsymmetric(fs, source, destination, key, password, progress);
             }
             else
                 throw new CryptographicException(Strings.ErrBadEncryptionHeader);
@@ -538,7 +538,7 @@ namespace Cobian.Locker
 
         }
 
-        private static void DecryptFileAssymetric([NotNull] FileStream sf, [NotNull] string source, [NotNull] string destination, [NotNull] string key,
+        private static void DecryptFileAsymmetric([NotNull] FileStream sf, [NotNull] string source, [NotNull] string destination, [NotNull] string key,
             string? password, FileProgressDel? progress)
         {
             using FileStream df = new(destination, FileMode.Create, FileAccess.Write);
