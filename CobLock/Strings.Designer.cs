@@ -659,6 +659,16 @@ namespace Cobian.Locker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -q
+        ///	Quiet mode. Does not show any type of operations..
+        /// </summary>
+        internal static string HelpFlagQuiet {
+            get {
+                return ResourceManager.GetString("HelpFlagQuiet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -r  
         ///	If the source is a directory, then process all subdirectories as well..
         /// </summary>

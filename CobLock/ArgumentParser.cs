@@ -120,6 +120,10 @@ namespace Cobian.Locker
         /// </summary>
         public string? Destination { get; set; }
 
+        /// <summary>
+        /// Quiet mode
+        /// </summary>
+        public bool Quiet { get; private set; }
 
         /// <summary>
         /// The constructor 
@@ -235,7 +239,7 @@ namespace Cobian.Locker
         /// <summary>
         /// Decode the first argument
         /// </summary>
-        /// <param name="verb">Theverb</param>
+        /// <param name="verb">The verb.</param>
         /// <returns>Null if the verb is wrong</returns>
         private static Verb DecodeVerb(string verb)
         {
@@ -485,6 +489,12 @@ namespace Cobian.Locker
                         Key = GetPredicate(flag);
                         break;
                     }
+                case var b when b.Equals(Constants.FlagQuiet, StringComparison.Ordinal):
+                {
+                    Quiet = true;
+                    break;
+                }
+
                 default:
                     break;
             }
